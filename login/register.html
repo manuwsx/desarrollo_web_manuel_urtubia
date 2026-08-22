@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ave-stamientos Login</title>
+</head>
+
+<body>
+    <h1>Regístrate en Ave-stamientos</h1>
+
+    <form action="#" method="post" id="registro-form">
+        <p>
+            <label for="correo">Correo electrónico:</label><br>
+            <input id="email" name="email" type="email" placeholder="Email" required>
+        </p>
+        <p>
+            <label for="nombre">Nombre de usuario:</label><br>
+            <input id="nombre" name="nombre" type="text" placeholder="Nombre de usuario" required>
+        </p>
+        <p>
+            <label for="Nombre Completo">Nombre Completo:</label><br>
+            <input id="nombre_completo" name="nombre_completo" type="text" placeholder="Nombre Completo" required>
+        </p>
+        <p>
+            <label for="telefono">Teléfono:</label><br>
+            <input id="telefono" name="telefono" type="tel" placeholder="Teléfono" required>
+        </p>
+        <p>
+            <label for="region">Región:</label><br>
+            <select id="region" name="region" required>
+                <option value="">Seleccione una región</option>
+            </select>
+        </p>
+
+        <p>
+            <label for="comuna">Comuna:</label><br>
+            <select id="comuna" name="comuna" disabled required>
+                <option value="">Seleccione una comuna</option>
+            </select>
+        </p>
+
+        <p>
+            <label for="contrasena">Contraseña:</label><br>
+            <input id="contrasena" name="contrasena" type="password" placeholder="Contraseña" required>
+        </p>
+
+        <button type="submit">Registrarse</button>
+    </form>
+    <script src="../geo_data.js"></script>
+    <script src="register.js"></script>
+    <script> geo_dropdowns('region', 'comuna'); </script>
+</body>
+
+</html>
