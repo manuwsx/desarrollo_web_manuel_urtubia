@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ave-stamientos</title>
+</head>
+
+<body>
+    <h1>Avistamientos</h1>
+    <select id="filtroTipo">
+        <option value="todos">Tipo: Todos</option>
+        <option value="Rapaces">Rapaces</option>
+        <option value="Cantoras">Cantoras</option>
+        <option value="Acuáticas y Marinas">Acuáticas y Marinas</option>
+        <option value="Corredoras">Corredoras</option>
+        <option value="Trepadoras">Trepadoras</option>
+        <option value="Galliformes">Galliformes</option>
+    </select>
+    <select id="orden">
+        <option value="fecha-desc">Fecha (Nuevos primero)</option>
+        <option value="fecha-asc">Fecha (Antiguos primero)</option>
+        <option value="region-asc">Región (A-Z)</option>
+        <option value="region-desc">Región (Z-A)</option>
+    </select>
+    <div id="contenedor-avistamientos"></div>
+    <button id="anterior" disabled>Anterior</button>
+    <span id="pagina-actual">Página 1</span>
+    <button id="siguiente">Siguiente</button>
+    <script src="list.js"></script>
+</body>
+
+</html>

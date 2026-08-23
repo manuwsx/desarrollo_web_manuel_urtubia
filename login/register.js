@@ -99,6 +99,5 @@ const validarForm = (e) => {
     }
 };
 
-// 3. Recuperamos el formulario completo para poder escuchar el evento 'submit'
 let loginForm = document.getElementById("registro-form");
 loginForm.addEventListener("submit", validarForm);
