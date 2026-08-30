@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Informar Avistamiento</title>
+</head>
+
+<body>
+    <h1>Informar Avistamiento</h1>
+    <p>Por favor, completa el siguiente formulario para informar un nuevo avistamiento de aves.</p>
+
+    <form action="#" method="post" enctype="multipart/form-data" id="avistamientoForm">
+        <p>
+            <label for="tipoAve">Tipo de ave:</label><br>
+            <select id="tipoAve" name="tipoAve" required>
+                <option value="" disabled selected>Selecciona un tipo...</option>
+                <option value="Rapaces">Rapaces</option>
+                <option value="Cantoras">Cantoras</option>
+                <option value="Acuáticas y Marinas">Acuáticas y Marinas</option>
+                <option value="Corredoras">Corredoras</option>
+                <option value="Trepadoras">Trepadoras</option>
+                <option value="Galliformes">Galliformes</option>
+            </select>
+        </p>
+        <p>
+            <label for="nombreAve">Nombre del ave:</label><br>
+            <input type="text" id="nombreAve" name="nombreAve" required>
+        </p>
+        <p>
+            <label for="region">Región:</label><br>
+            <select id="region" name="region" required>
+                <option value="">Seleccione una región</option>
+            </select>
+        </p>
+        <p>
+            <label for="comuna">Comuna:</label><br>
+            <select id="comuna" name="comuna" disabled required>
+                <option value="">Seleccione una comuna</option>
+            </select>
+        </p>
+        <p>
+            <label for="lugar">Lugar del avistamiento:</label><br>
+            <input type="text" id="lugar" name="lugar" required>
+        </p>
+        <p>
+            <label for="fecha">Fecha y hora:</label><br>
+            <input type="datetime-local" id="fecha" name="fecha" required>
+        </p>
+        <p>
+            <label for="media">Foto o Vídeo (requerido):</label><br>
+            <input type="file" id="media" name="media" accept="image/*,video/*" required>
+        </p>
+        <button type="submit">Enviar Avistamiento</button>
+    </form>
+    <script src="../geo_data.js"></script>
+    <script> geo_dropdowns('region', 'comuna'); </script>
+    <script src="inform.js"></script>
+</body>
+
+</html>

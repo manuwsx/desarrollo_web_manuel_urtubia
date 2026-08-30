@@ -107,10 +107,10 @@ const spanPagina = document.getElementById("pagina-actual");
 const contenedor = document.getElementById("contenedor-avistamientos");
 
 const show_list = (lista) => {
+    //obtener la lista con los avistamientos para mostrar en esta pagina
     const inicio = (paginaActual - 1) * elementosByPage;
     const fin = inicio + elementosByPage;
-
-    data2show = lista.slice(inicio, fin); //lista con los avistamientos para mostrar en esta pagina
+    data2show = lista.slice(inicio, fin);
 
     contenedor.innerHTML = "";
 
@@ -143,6 +143,7 @@ const show_list = (lista) => {
     }
 }
 
+//filtro
 const selectFiltro = document.getElementById("filtroTipo")
 selectFiltro.addEventListener("change", e => {
     const filtroSeleccionado = e.target.value;
@@ -158,6 +159,7 @@ selectFiltro.addEventListener("change", e => {
     show_list(lista_actual)
 });
 
+//botones
 const btn_anterior = document.getElementById("anterior")
 btn_anterior.addEventListener("click", () => {
     if (paginaActual > 1) {
@@ -172,6 +174,7 @@ btn_siguiente.addEventListener("click", () => {
     show_list(lista_actual);
 });
 
+//ordenar
 const selectOrden = document.getElementById("orden")
 selectOrden.addEventListener("change", e => {
     const ordenSeleccionado = e.target.value;

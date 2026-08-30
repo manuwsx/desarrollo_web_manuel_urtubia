@@ -52,3 +52,6 @@ const geo_dropdowns = (selectRegionId, selectComunaId) => {
         }
     })
 }
+
+const lista_regiones = Object.keys(region_comuna);
+const lista_comunas = Object.values(region_comuna).flat();

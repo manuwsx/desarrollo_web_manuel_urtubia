@@ -14,14 +14,15 @@ const validarForm = (e) => {
 
     const validadorTelefono = (tel) => /^(\+?56)?9\d{8}$/.test(tel);
 
-    const validadorSelect = (opcion) => opcion && opcion !== "";
+    const validadorRegion = (region) => region && lista_regiones.includes(region);
+    const validadorComuna = (comuna) => comuna && lista_comunas.includes(comuna);
 
     const validadorContrasena = (pswd) => {
         const regexSegura = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
         return regexSegura.test(pswd);
     };
 
-    // obtener inputs del DOM por el ID
+    // obtener inputs del DOM por el Id
     let emailInput = document.getElementById("email");
     let userNameInput = document.getElementById("nombre");
     let nombreCompletoInput = document.getElementById("nombre_completo");
@@ -61,15 +62,15 @@ const validarForm = (e) => {
         telefonoInput.style.borderColor = "";
     }
 
-    if (!validadorSelect(regionInput.value)) {
-        msg += "Región no seleccionada!\n";
+    if (!validadorRegion(regionInput.value)) {
+        msg += "Región no seleccionada o inválida!\n";
         regionInput.style.borderColor = "red";
     } else {
         regionInput.style.borderColor = "";
     }
 
-    if (!validadorSelect(comunaInput.value)) {
-        msg += "Comuna no seleccionada!\n";
+    if (!validadorComuna(comunaInput.value)) {
+        msg += "Comuna no seleccionada o inválida!\n";
         comunaInput.style.borderColor = "red";
     } else {
         comunaInput.style.borderColor = "";
@@ -85,18 +86,9 @@ const validarForm = (e) => {
     if (msg === "") {
         msg = "Felicidades ya tienes una cuenta!";
         isValid = true;
-        // no contamos con un backend, asi que de momento
-        // utilizaremos el localStorage para dar la
-        // sensacion de que nos hemos autentificado.
-        let username = userNameInput.value;
-        localStorage.setItem("username", username);
     }
 
     alert(msg); // alertas JS
-
-    if (isValid) {
-        // window.location.href = "../html/confesiones.html"; CAMBIAR, VIENE DEL AUX
-    }
 };
 
 let loginForm = document.getElementById("registro-form");
