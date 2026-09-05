@@ -3,23 +3,31 @@ const validarForm = (e) => {
     e.preventDefault();
 
     // funciones auxiliares
+
+    //regex para validar
     const validadorMail = (mail) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(mail);
 
+    //username debe tener mas de 4 caracteres
     const validadorUserName = (username) => username && username.trim().length > 4;
 
+    //nombre debe tener mas de 5 caracteres y un espacio
     const validadorNombreCompleto = (nombre) => {
         const regexNombre = /^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/;
         return nombre && regexNombre.test(nombre) && nombre.trim().includes(" ") && nombre.trim().length > 5;
     };
 
+    //telefono debe ser formato chileno
     const validadorTelefono = (tel) => /^(\+?56)?9\d{8}$/.test(tel);
 
+    //region debe ser valida y estar en regiones definidas
     const validadorRegion = (region) => region && lista_regiones.includes(region);
+    //comuna debe ser valida y estar en comunas definidas
     const validadorComuna = (comuna) => comuna && lista_comunas.includes(comuna);
 
+    //contrasena debe tener al menos 8 caracteres, una mayuscula, una minuscula y un numero y un simbolo
     const validadorContrasena = (pswd) => {
-        const regexSegura = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
-        return regexSegura.test(pswd);
+        const regexSeguro = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+        return regexSeguro.test(pswd);
     };
 
     // obtener inputs del DOM por el Id
@@ -31,64 +39,74 @@ const validarForm = (e) => {
     let comunaInput = document.getElementById("comuna");
     let pswdInput = document.getElementById("contrasena");
 
-    let isValid = false;
-    let msg = "";
+    let isValid = true;
 
     if (!validadorMail(emailInput.value)) {
-        msg += "Mail malo!\n";
-        emailInput.style.borderColor = "red"; // cambiar estilo con JS!!
+        emailInput.style.borderColor = "red";
+        document.getElementById("error-email").classList.add("visible");
+        isValid = false;
     } else {
         emailInput.style.borderColor = "";
+        document.getElementById("error-email").classList.remove("visible");
     }
 
     if (!validadorUserName(userNameInput.value)) {
-        msg += "Nombre malo!\n";
         userNameInput.style.borderColor = "red";
+        document.getElementById("error-nombre").classList.add("visible");
+        isValid = false;
     } else {
         userNameInput.style.borderColor = "";
+        document.getElementById("error-nombre").classList.remove("visible");
     }
 
     if (!validadorNombreCompleto(nombreCompletoInput.value)) {
-        msg += "Nombre completo malo! (Debe incluir apellido)\n";
         nombreCompletoInput.style.borderColor = "red";
+        document.getElementById("error-nombre_completo").classList.add("visible");
+        isValid = false;
     } else {
         nombreCompletoInput.style.borderColor = "";
+        document.getElementById("error-nombre_completo").classList.remove("visible");
     }
 
     if (!validadorTelefono(telefonoInput.value)) {
-        msg += "Teléfono malo! (Formato chileno requerido)\n";
         telefonoInput.style.borderColor = "red";
+        document.getElementById("error-telefono").classList.add("visible");
+        isValid = false;
     } else {
         telefonoInput.style.borderColor = "";
+        document.getElementById("error-telefono").classList.remove("visible");
     }
 
     if (!validadorRegion(regionInput.value)) {
-        msg += "Región no seleccionada o inválida!\n";
         regionInput.style.borderColor = "red";
+        document.getElementById("error-region").classList.add("visible");
+        isValid = false;
     } else {
         regionInput.style.borderColor = "";
+        document.getElementById("error-region").classList.remove("visible");
     }
 
     if (!validadorComuna(comunaInput.value)) {
-        msg += "Comuna no seleccionada o inválida!\n";
         comunaInput.style.borderColor = "red";
+        document.getElementById("error-comuna").classList.add("visible");
+        isValid = false;
     } else {
         comunaInput.style.borderColor = "";
+        document.getElementById("error-comuna").classList.remove("visible");
     }
 
     if (!validadorContrasena(pswdInput.value)) {
-        msg += "Contraseña mala! (Min 8 caracteres, 1 mayúscula, 1 minúscula, 1 número, 1 símbolo)\n";
         pswdInput.style.borderColor = "red";
+        document.getElementById("error-contrasena").classList.add("visible");
+        isValid = false;
     } else {
         pswdInput.style.borderColor = "";
+        document.getElementById("error-contrasena").classList.remove("visible");
     }
 
-    if (msg === "") {
-        msg = "Felicidades ya tienes una cuenta!";
-        isValid = true;
+    if (isValid) {
+        alert("Cuenta creada exitosamente!");
     }
-
-    alert(msg); // alertas JS
 };
 
 let loginForm = document.getElementById("registro-form");

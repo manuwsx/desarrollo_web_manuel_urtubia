@@ -5,34 +5,53 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ave-stamientos Login</title>
+    <style>
+        .error-msg {
+            color: #c0392b;
+            font-size: 0.85em;
+            display: none;
+            margin-top: 5px;
+            font-weight: bold;
+        }
+
+        .error-msg.visible {
+            display: block;
+        }
+    </style>
 </head>
 
 <body>
     <a href="../index.html">Volver al inicio</a>
     <h1>Regístrate en Ave-stamientos</h1>
 
-    <form action="#" method="post" id="registro-form">
+    <form action="#" method="post" id="registro-form" novalidate>
         <p>
             <label for="correo">Correo electrónico:</label><br>
             <input id="email" name="email" type="email" placeholder="Email" required>
+            <span class="error-msg" id="error-email">Ingrese un correo electrónico válido.</span>
         </p>
         <p>
             <label for="nombre">Nombre de usuario:</label><br>
             <input id="nombre" name="nombre" type="text" placeholder="Nombre de usuario" required>
+            <span class="error-msg" id="error-nombre">El nombre de usuario debe tener más de 4 caracteres.</span>
         </p>
         <p>
             <label for="Nombre Completo">Nombre Completo:</label><br>
             <input id="nombre_completo" name="nombre_completo" type="text" placeholder="Nombre Completo" required>
+            <span class="error-msg" id="error-nombre_completo">El nombre debe incluir apellido y tener más de 5
+                caracteres.</span>
         </p>
         <p>
             <label for="telefono">Teléfono:</label><br>
             <input id="telefono" name="telefono" type="tel" placeholder="Teléfono" required>
+            <span class="error-msg" id="error-telefono">El teléfono debe tener formato chileno.</span>
         </p>
         <p>
             <label for="region">Región:</label><br>
             <select id="region" name="region" required>
                 <option value="">Seleccione una región</option>
             </select>
+            <span class="error-msg" id="error-region">Debe seleccionar una región.</span>
         </p>
 
         <p>
@@ -40,13 +59,15 @@
             <select id="comuna" name="comuna" disabled required>
                 <option value="">Seleccione una comuna</option>
             </select>
+            <span class="error-msg" id="error-comuna">Debe seleccionar una comuna.</span>
         </p>
 
         <p>
             <label for="contrasena">Contraseña:</label><br>
             <input id="contrasena" name="contrasena" type="password" placeholder="Contraseña" required>
+            <span class="error-msg" id="error-contrasena">La contraseña debe tener mín. 8 caracteres, mayúscula,
+                minúscula, número y símbolo.</span>
         </p>
-
         <button type="submit">Registrarse</button>
     </form>
     <script src="../geo_data.js"></script>

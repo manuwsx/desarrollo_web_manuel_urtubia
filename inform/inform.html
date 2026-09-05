@@ -5,6 +5,19 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Informar Avistamiento</title>
+    <style>
+        .error-msg {
+            color: #c0392b;
+            font-size: 0.85em;
+            display: none;
+            margin-top: 5px;
+            font-weight: bold;
+        }
+
+        .error-msg.visible {
+            display: block;
+        }
+    </style>
 </head>
 
 <body>
@@ -12,7 +25,7 @@
     <h1>Informar Avistamiento</h1>
     <p>Por favor, completa el siguiente formulario para informar un nuevo avistamiento de aves.</p>
 
-    <form action="#" method="post" enctype="multipart/form-data" id="avistamientoForm">
+    <form action="#" method="post" enctype="multipart/form-data" id="avistamientoForm" novalidate>
         <p>
             <label for="tipoAve">Tipo de ave:</label><br>
             <select id="tipoAve" name="tipoAve" required>
@@ -24,34 +37,42 @@
                 <option value="Trepadoras">Trepadoras</option>
                 <option value="Galliformes">Galliformes</option>
             </select>
+            <span class="error-msg" id="error-tipoAve">Seleccione un tipo de ave válido.</span>
         </p>
         <p>
             <label for="nombreAve">Nombre del ave:</label><br>
             <input type="text" id="nombreAve" name="nombreAve" required>
+            <span class="error-msg" id="error-nombreAve">El nombre debe tener al menos 3 caracteres.</span>
         </p>
         <p>
             <label for="region">Región:</label><br>
             <select id="region" name="region" required>
                 <option value="">Seleccione una región</option>
             </select>
+            <span class="error-msg" id="error-region">Debe seleccionar una región.</span>
         </p>
         <p>
             <label for="comuna">Comuna:</label><br>
             <select id="comuna" name="comuna" disabled required>
                 <option value="">Seleccione una comuna</option>
             </select>
+            <span class="error-msg" id="error-comuna">Debe seleccionar una comuna.</span>
         </p>
         <p>
             <label for="lugar">Lugar del avistamiento:</label><br>
             <input type="text" id="lugar" name="lugar" required>
+            <span class="error-msg" id="error-lugar">El lugar debe tener al menos 3 caracteres.</span>
         </p>
         <p>
             <label for="fecha">Fecha y hora:</label><br>
             <input type="datetime-local" id="fecha" name="fecha" required>
+            <span class="error-msg" id="error-fecha">Fecha no válida (No puede estar en el futuro ni ser anterior a 2
+                semanas).</span>
         </p>
         <p>
             <label for="media">Foto o Vídeo (requerido):</label><br>
             <input type="file" id="media" name="media" accept="image/*,video/*" required>
+            <span class="error-msg" id="error-media">Debe adjuntar un archivo válido (.png, .jpg, .mp4, etc).</span>
         </p>
         <button type="submit">Enviar Avistamiento</button>
     </form>
