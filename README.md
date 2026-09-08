@@ -7,9 +7,7 @@ La página web consiste de una landing page (index.html) la cual tiene hipervinc
 
 ## Decisiones de Diseño e Implementación
 
-- **Validaciones de Formularios**: Para las validaciones en el registro de usuarios y en el formulario de avistamientos, se implementaron indicadores visuales. Para mostrar si un dato ingresado está correcto o incorrecto, se utilizaron etiquetas `<span>` de color rojo como se hizo en el Ejercicio 1.
-
-Cabe destacar que, si bien se agregó el atributo required a todos los campos de los formularios, se utilizó el atributo novalidate en la etiqueta <form>. Esto se hizo con el objetivo de desactivar la validación nativa del navegador y que la validación fuera hecha finalmente por el código JavaScript.
+- **Validaciones de Formularios**: Para las validaciones en el registro de usuarios y en el formulario de avistamientos, se implementaron indicadores visuales. Para mostrar si un dato ingresado está correcto o incorrecto, se utilizaron etiquetas `<span>` de color rojo como se hizo en el Ejercicio 1. Cabe destacar que, si bien se agregó el atributo required a todos los campos de los formularios, se utilizó el atributo novalidate en la etiqueta <form>. Esto se hizo con el objetivo de desactivar la validación nativa del navegador y que la validación fuera hecha finalmente por el código JavaScript.
 
 - **Manejo de Datos Geográficos (Regiones y Comunas)**: Todos los datos correspondientes a las regiones y comunas de Chile, junto con las funciones encargadas de manejar los *dropdowns* de ellas, se dejaron en el archivo `geo_data.js` .
 

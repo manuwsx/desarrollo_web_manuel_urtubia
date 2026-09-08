@@ -5,7 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Estadísticas y Métricas</title>
-    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" type="text/css" href="../style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 
 <body>
@@ -19,11 +20,19 @@
 
     <h2>Tipos de Aves Registrados</h2>
     <p>Distribución de los tipos de aves que han sido avistados hasta la fecha.</p>
-    <img src="grafico_torta_aves.png" alt="Gráfico de torta con respecto a los tipos de aves registrados" width="400">
+
+    <div style="width: 500px; max-width: 100%;">
+        <canvas id="graficoTortaAves"></canvas>
+    </div>
 
     <h2>Avistamientos por Región</h2>
     <p>Cantidad total de avistamientos registrados agrupados por cada región del país.</p>
-    <img src="grafico_barras_region.png" alt="Gráfico de barras de la cantidad de avistamientos por región" width="400">
+
+    <div style="width: 1000px; max-width: 100%;">
+        <canvas id="graficoAvistamientoRegion"></canvas>
+    </div>
+
+    <script src="stats.js"></script>
 </body>
 
 </html>
