@@ -7,13 +7,13 @@ const validarForm = (e) => {
     //regex para validar
     const validadorMail = (mail) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(mail);
 
-    //username debe tener mas de 4 caracteres
-    const validadorUserName = (username) => username && username.trim().length > 4;
+    //username debe tener mas de 3 caracteres
+    const validadorUserName = (username) => username && username.trim().length > 3;
 
-    //nombre debe tener mas de 5 caracteres y un espacio
+    //nombre debe tener mas de 5 caracteres y un espacio, sin espacios múltiples
     const validadorNombreCompleto = (nombre) => {
-        const regexNombre = /^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/;
-        return nombre && regexNombre.test(nombre) && nombre.trim().includes(" ") && nombre.trim().length > 5;
+        const regexNombre = /^[a-zA-ZáéíóúÁÉÍÓÚñÑ]+( [a-zA-ZáéíóúÁÉÍÓÚñÑ]+)+$/;
+        return nombre && regexNombre.test(nombre) && nombre.length > 5;
     };
 
     //telefono debe ser formato chileno

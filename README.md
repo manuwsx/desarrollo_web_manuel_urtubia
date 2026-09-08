@@ -11,7 +11,7 @@ La página web consiste de una landing page (index.html) la cual tiene hipervinc
 
 - **Manejo de Datos Geográficos (Regiones y Comunas)**: Todos los datos correspondientes a las regiones y comunas de Chile, junto con las funciones encargadas de manejar los *dropdowns* de ellas, se dejaron en el archivo `geo_data.js` .
 
-- **Estadísticas**: En la vista de estadísticas (`stats`) se presentan estadísticas básicas de la página. Sin embargo, dado que no hay un backend, todos los datos mostrados son estáticos. Se generaron los gráficos en excel y se muestran como imágenes.
+- **Estadísticas**: En la vista de estadísticas (`stats`) se presentan estadísticas básicas de la página. Sin embargo, dado que no hay un backend, todos los datos mostrados son estáticos. Para los gráficos se usó la librería Chart.js
 
 ## Sobre uso de imagen
 
