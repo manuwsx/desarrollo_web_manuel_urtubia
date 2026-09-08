@@ -14,7 +14,7 @@ const validarForm = (e) => {
     const validadorRegion = (region) => region && lista_regiones.includes(region);
 
     //la comuna debe estar en la lista de comunas validas
-    const validadorComuna = (comuna) => comuna && lista_comunas.includes(comuna); //quiero que se seleccione una comuna de las predefinidas
+    const validadorComuna = (comuna) => comuna && lista_comunas.includes(comuna);
 
     //el lugar debe tener al menos 3 caracteres
     const validadorLugar = (lugar) => lugar && lugar.trim().length > 2;
