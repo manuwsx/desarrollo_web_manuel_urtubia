@@ -55,6 +55,7 @@ class Avistamiento(Base):
     lugar = Column(String(200), nullable=False)
 
 class Registro(Base):
+    __tablename__ = 'registro'
     id = Column(Integer, primary_key=True, autoincrement=True)
     ruta_archivo = Column(String(300), nullable=False)
     nombre_archivo = Column(String(300), nullable=False)
@@ -167,3 +168,9 @@ def create_avistamiento(voluntario_id, ave_id, tipo_ave, comuna_id, fecha_hora, 
     
     session.commit()
     session.close()
+
+def get_comuna_id(nombre_comuna):
+    session = SessionLocal()
+    comuna = session.query(Comuna).filter(Comuna.nombre == nombre_comuna).first()
+    session.close()
+    return comuna.id

@@ -5,16 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Aves-tamientos</title>
-    <link rel="stylesheet" type="text/css" href="style.css">
-    <style>
-        ul {
-            list-style-type: none;
-            padding: 0;
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-        }
-    </style>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
 </head>
 
 <body>
@@ -30,8 +21,25 @@
         </ul>
     </nav>
 
+    <div class="ultimos-avistamientos">
+        <h2>Últimos Avistamientos</h2>
+        {% if avistamientos %}
+        <ul>
+            {% for avistamiento in avistamientos %}
+            <li>
+                <strong>{{ avistamiento.ave.nombre }}</strong> visto en {{ avistamiento.lugar }}<br>
+                <small>Fecha: {{ avistamiento.fecha_hora.strftime('%d-%m-%Y %H:%M') }}</small>
+            </li>
+            {% endfor %}
+        </ul>
+        {% else %}
+        <p>Aún no hay avistamientos registrados en la base de datos.</p>
+        {% endif %}
+    </div>
+
     <figure style="margin: 40px auto; text-align: center;">
-        <img src="buho.png" alt="A young burrowing owl" style="max-width: 100%; height: auto; border-radius: 6px;">
+        <img src="{{ url_for('static', filename='buho.png') }}" alt="A young burrowing owl"
+            style="max-width: 100%; height: auto; border-radius: 6px;">
         <figcaption style="font-size: 0.85em; color: #555; margin-top: -5px; line-height: 1.2; padding: 0 10px;">
             "A young burrowing owl has found a haven in a storm pipe at the Phoenix Zoo, Arizona." — Fotografía por
             Carol M. Highsmith (2018).

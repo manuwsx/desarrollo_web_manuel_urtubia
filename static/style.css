@@ -66,3 +66,31 @@ form {
     margin: 0 auto;
     text-align: center;
 }
+
+ul {
+    list-style-type: none;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.ultimos-avistamientos {
+    text-align: center;
+    margin: 20px auto;
+    max-width: 600px;
+}
+
+.ultimos-avistamientos ul {
+    flex-direction: column;
+    align-items: center;
+}
+
+.ultimos-avistamientos li {
+    background-color: #e9ecef;
+    border: 1px solid #ccc;
+    margin: 5px 0;
+    padding: 10px;
+    border-radius: 6px;
+    width: 100%;
+}
