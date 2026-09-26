@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Registro - Aves-tamientos</title>
-    <link rel="stylesheet" type="text/css" href="../style.css">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
     <style>
         .error-msg {
             color: #c0392b;
@@ -22,10 +22,16 @@
 </head>
 
 <body>
-    <a href="../index.html">Volver al inicio</a>
+    <a href="/">Volver al inicio</a>
     <h1>Regístrate en Ave-stamientos</h1>
 
-    <form action="#" method="post" id="registro-form" novalidate>
+    {% if error %}
+    <p
+        style="color: #c0392b; font-weight: bold; background-color: #f8d7da; padding: 10px; border-radius: 5px; border: 1px solid #f5c6cb;">
+        {{ error }}</p>
+    {% endif %}
+
+    <form action="/register" method="post" id="registro-form" novalidate>
         <p>
             <label for="email">Correo electrónico:</label><br>
             <input id="email" name="email" type="email" placeholder="Email" required>
@@ -71,8 +77,8 @@
         </p>
         <button type="submit">Registrarse</button>
     </form>
-    <script src="../geo_data.js"></script>
-    <script src="register.js"></script>
+    <script src="{{ url_for('static', filename='geo_data.js') }}"></script>
+    <script src="{{ url_for('static', filename='register.js') }}"></script>
     <script> geo_dropdowns('region', 'comuna'); </script>
 </body>
 

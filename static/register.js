@@ -105,7 +105,7 @@ const validarForm = (e) => {
     }
 
     if (isValid) {
-        alert("Cuenta creada exitosamente!");
+        loginForm.submit();
     }
 };
 

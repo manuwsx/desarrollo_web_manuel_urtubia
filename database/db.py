@@ -94,7 +94,7 @@ def create_voluntario(username, nombre_completo, email, telefono, password, comu
         nombre_completo = nombre_completo,
         email = email,
         telefono = telefono,
-        password = password,
+        contrasena = password,
         comuna_id = comuna_id
     )
     session.add(new_voluntario)
@@ -173,4 +173,4 @@ def get_comuna_id(nombre_comuna):
     session = SessionLocal()
     comuna = session.query(Comuna).filter(Comuna.nombre == nombre_comuna).first()
     session.close()
-    return comuna.id
+    return comuna.id if comuna else None

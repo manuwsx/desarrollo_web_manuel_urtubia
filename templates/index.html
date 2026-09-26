@@ -14,7 +14,7 @@
 
     <nav>
         <ul>
-            <li><a href="register/register.html">Registrarse</a></li>
+            <li><a href="/register">Registrarse</a></li>
             <li><a href="inform/inform.html">Formulario de Avistamiento</a></li>
             <li><a href="list/list.html">Lista de Avistamientos</a></li>
             <li><a href="stats/stats.html">Página de Estadísticas</a></li>
@@ -45,6 +45,11 @@
             Carol M. Highsmith (2018).
         </figcaption>
     </figure>
+    {% if request.args.get('registro') == 'exitoso' %}
+    <script>
+        alert("¡Cuenta creada exitosamente!");
+    </script>
+    {% endif %}
 </body>
 
 </html>
