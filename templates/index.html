@@ -15,11 +15,21 @@
     <nav>
         <ul>
             <li><a href="/register">Registrarse</a></li>
-            <li><a href="inform/inform.html">Formulario de Avistamiento</a></li>
+            <li><a href="/inform">Formulario de Avistamiento</a></li>
             <li><a href="list/list.html">Lista de Avistamientos</a></li>
             <li><a href="stats/stats.html">Página de Estadísticas</a></li>
         </ul>
     </nav>
+
+    {% if request.args.get('exito') == 'voluntario' %}
+    <div class="mensaje-exito">
+        ¡Cuenta de voluntario creada exitosamente!
+    </div>
+    {% elif request.args.get('exito') == 'avistamiento' %}
+    <div class="mensaje-exito">
+        ¡Avistamiento registrado exitosamente!
+    </div>
+    {% endif %}
 
     <div class="ultimos-avistamientos">
         <h2>Últimos Avistamientos</h2>
@@ -45,11 +55,6 @@
             Carol M. Highsmith (2018).
         </figcaption>
     </figure>
-    {% if request.args.get('registro') == 'exitoso' %}
-    <script>
-        alert("¡Cuenta creada exitosamente!");
-    </script>
-    {% endif %}
 </body>
 
 </html>

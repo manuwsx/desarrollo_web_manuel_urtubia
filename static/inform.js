@@ -37,14 +37,27 @@ const validarForm = (e) => {
         return extensionesValidas.includes(extension);
     };
 
+    //valida que los archivos pesen a lo mas 10MB
+    const validadorPesoMedia = (media) => {
+        const limiteBytes = 10 * 1024 * 1024;
+
+        if (media.files && media.files.length > 0) {
+            const pesoArchivo = media.files[0].size;
+            return pesoArchivo <= limiteBytes;
+        }
+        return false;
+    };
+
     // obtener inputs del DOM por el Id
-    let tipoAveInput = document.getElementById("tipoAve");
-    let nombreAveInput = document.getElementById("nombreAve");
+    let tipoAveInput = document.getElementById("tipo_ave");
+    let aveIdInput = document.getElementById("ave_id");
     let regionInput = document.getElementById("region");
     let comunaInput = document.getElementById("comuna");
     let lugarInput = document.getElementById("lugar");
     let fechaInput = document.getElementById("fecha");
     let mediaInput = document.getElementById("media");
+    let usernameInput = document.getElementById("username");
+    let passwordInput = document.getElementById("password");
 
     let isValid = true;
 
@@ -57,13 +70,13 @@ const validarForm = (e) => {
         document.getElementById("error-tipoAve").classList.remove("visible");
     }
 
-    if (!validadorNombreAve(nombreAveInput.value)) {
-        nombreAveInput.style.borderColor = "red";
-        document.getElementById("error-nombreAve").classList.add("visible");
+    if (aveIdInput.value.trim() === "") {
+        aveIdInput.style.borderColor = "red";
+        document.getElementById("error-ave_id").classList.add("visible");
         isValid = false;
     } else {
-        nombreAveInput.style.borderColor = "";
-        document.getElementById("error-nombreAve").classList.remove("visible");
+        aveIdInput.style.borderColor = "";
+        document.getElementById("error-ave_id").classList.remove("visible");
     }
 
     if (!validadorRegion(regionInput.value)) {
@@ -105,15 +118,42 @@ const validarForm = (e) => {
 
     if (!validadorMedia(mediaInput.value)) {
         mediaInput.style.borderColor = "red";
-        document.getElementById("error-media").classList.add("visible");
+        document.getElementById("error-media-tipo").classList.add("visible");
         isValid = false;
     } else {
         mediaInput.style.borderColor = "";
-        document.getElementById("error-media").classList.remove("visible");
+        document.getElementById("error-media-tipo").classList.remove("visible");
+
+        if (!validadorPesoMedia(mediaInput)) {
+            mediaInput.style.borderColor = "red";
+            document.getElementById("error-media-peso").classList.add("visible");
+            isValid = false;
+        } else {
+            mediaInput.style.borderColor = "";
+            document.getElementById("error-media-peso").classList.remove("visible");
+        }
+    }
+
+    if (usernameInput.value.trim() === "") {
+        usernameInput.style.borderColor = "red";
+        document.getElementById("error-username").classList.add("visible");
+        isValid = false;
+    } else {
+        usernameInput.style.borderColor = "";
+        document.getElementById("error-username").classList.remove("visible");
+    }
+
+    if (passwordInput.value.trim() === "") {
+        passwordInput.style.borderColor = "red";
+        document.getElementById("error-password").classList.add("visible");
+        isValid = false;
+    } else {
+        passwordInput.style.borderColor = "";
+        document.getElementById("error-password").classList.remove("visible");
     }
 
     if (isValid) {
-        alert("Avistamiento registrado.");
+        avistamientoForm.submit();
     }
 };
 

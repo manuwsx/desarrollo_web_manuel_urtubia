@@ -1,6 +1,8 @@
 from sqlalchemy import create_engine, Column, Integer, String, ForeignKey, DateTime
 from sqlalchemy.orm import sessionmaker, declarative_base, relationship
 from datetime import datetime
+import os
+from werkzeug.utils import secure_filename
 
 DB_NAME = "tarea2"
 DB_USERNAME = "cc5002"
@@ -53,6 +55,9 @@ class Avistamiento(Base):
     comuna_id = Column(Integer, ForeignKey('comuna.id'), nullable=False)
     fecha_hora = Column(DateTime, nullable=False)
     lugar = Column(String(200), nullable=False)
+
+    ave = relationship("Ave", lazy='joined')
+    registros = relationship("Registro", backref="avistamiento", lazy='joined')
 
 class Registro(Base):
     __tablename__ = 'registro'
@@ -159,12 +164,17 @@ def create_avistamiento(voluntario_id, ave_id, tipo_ave, comuna_id, fecha_hora, 
     session.commit()
     
     for archivo in archivos:
-        nuevo_registro = Registro(
-            ruta_archivo=archivo['ruta'],
-            nombre_archivo=archivo['nombre'],
-            avistamiento_id=nuevo_avistamiento.id
-        )
-        session.add(nuevo_registro)
+        if archivo and archivo.filename:
+            filename = secure_filename(archivo.filename)
+            ruta = f"static/uploads/{filename}"
+            archivo.save(ruta)
+
+            nuevo_registro = Registro(
+                ruta_archivo=ruta,
+                nombre_archivo=filename,
+                avistamiento_id=nuevo_avistamiento.id
+            )
+            session.add(nuevo_registro)
     
     session.commit()
     session.close()
@@ -174,3 +184,32 @@ def get_comuna_id(nombre_comuna):
     comuna = session.query(Comuna).filter(Comuna.nombre == nombre_comuna).first()
     session.close()
     return comuna.id if comuna else None
+
+def get_password(username):
+    session = SessionLocal()
+    voluntario = session.query(Voluntario).filter_by(nombre_usuario=username).first()
+    session.close()
+    return voluntario.contrasena if voluntario else None
+
+def register_avistamiento(username, password, ave_id, tipo_ave, comuna_id, fecha_hora, lugar, archivos):
+    voluntario = get_voluntario_by_username(username)
+    if voluntario is None:
+        return False, "El nombre de usuario no existe."
+    if voluntario.contrasena != password:
+        return False, "La contraseña es incorrecta."
+
+    # Validar que el ave exista en la tabla 'ave'
+    session = SessionLocal()
+    ave_existe = session.query(Ave).filter_by(id=ave_id).first()
+    session.close() 
+    
+    if ave_existe is None:
+        return False, "El ave seleccionada no existe en el sistema."
+    create_avistamiento(voluntario.id, ave_id, tipo_ave, comuna_id, fecha_hora, lugar, archivos)
+    return True, None
+
+def get_aves():
+    session = SessionLocal()
+    aves = session.query(Ave).order_by(Ave.nombre.asc()).all()
+    session.close()
+    return aves
