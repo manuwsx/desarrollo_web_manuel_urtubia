@@ -3,6 +3,7 @@ from sqlalchemy.orm import sessionmaker, declarative_base, relationship
 from datetime import datetime
 import os
 from werkzeug.utils import secure_filename
+from werkzeug.security import generate_password_hash, check_password_hash
 
 DB_NAME = "tarea2"
 DB_USERNAME = "cc5002"
@@ -29,6 +30,8 @@ class Comuna(Base):
     id = Column(Integer, primary_key=True, autoincrement=True)
     nombre = Column(String(200), nullable=False)
     region_id = Column(Integer, ForeignKey('region.id'), nullable=False)
+
+    region = relationship("Region", lazy='joined')
 
 class Voluntario(Base):
     __tablename__ = 'voluntario'
@@ -58,6 +61,8 @@ class Avistamiento(Base):
 
     ave = relationship("Ave", lazy='joined')
     registros = relationship("Registro", backref="avistamiento", lazy='joined')
+    comuna = relationship("Comuna", lazy='joined')
+    voluntario = relationship("Voluntario", lazy='joined')
 
 class Registro(Base):
     __tablename__ = 'registro'
@@ -94,12 +99,13 @@ def get_voluntario_by_telefono(telefono):
 
 def create_voluntario(username, nombre_completo, email, telefono, password, comuna_id):
     session= SessionLocal()
+    hashed_password = generate_password_hash(password)
     new_voluntario = Voluntario(
         nombre_usuario = username,
         nombre_completo = nombre_completo,
         email = email,
         telefono = telefono,
-        contrasena = password,
+        contrasena = hashed_password,
         comuna_id = comuna_id
     )
     session.add(new_voluntario)
@@ -185,17 +191,11 @@ def get_comuna_id(nombre_comuna):
     session.close()
     return comuna.id if comuna else None
 
-def get_password(username):
-    session = SessionLocal()
-    voluntario = session.query(Voluntario).filter_by(nombre_usuario=username).first()
-    session.close()
-    return voluntario.contrasena if voluntario else None
-
 def register_avistamiento(username, password, ave_id, tipo_ave, comuna_id, fecha_hora, lugar, archivos):
     voluntario = get_voluntario_by_username(username)
     if voluntario is None:
         return False, "El nombre de usuario no existe."
-    if voluntario.contrasena != password:
+    if not check_password_hash(voluntario.contrasena, password):
         return False, "La contraseña es incorrecta."
 
     # Validar que el ave exista en la tabla 'ave'
@@ -213,3 +213,10 @@ def get_aves():
     aves = session.query(Ave).order_by(Ave.nombre.asc()).all()
     session.close()
     return aves
+
+def get_avistamiento_by_id(avistamiento_id):
+    session = SessionLocal()
+    avistamiento = session.query(Avistamiento).filter_by(id=avistamiento_id).first()
+    session.close()
+    return avistamiento
+

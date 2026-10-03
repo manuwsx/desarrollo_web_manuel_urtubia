@@ -31,6 +31,15 @@ input[type="button"]:hover,
     background-color: #0056b3;
 }
 
+button:disabled,
+input[type="submit"]:disabled,
+input[type="button"]:disabled,
+.btn:disabled {
+    background-color: #cccccc;
+    color: #666666;
+    cursor: not-allowed;
+}
+
 h1,
 h2,
 h3,
@@ -61,6 +70,21 @@ a:hover {
     text-decoration: none;
 }
 
+a.enlace-lista {
+    background-color: transparent;
+    color: #007bff;
+    text-decoration: underline;
+    padding: 0;
+    margin: 0;
+    display: inline;
+}
+
+a.enlace-lista:hover {
+    background-color: transparent;
+    color: #0056b3;
+    text-decoration: none;
+}
+
 form {
     max-width: 500px;
     margin: 0 auto;
@@ -81,19 +105,7 @@ nav ul {
     max-width: 600px;
 }
 
-.ultimos-avistamientos ul {
-    flex-direction: column;
-    align-items: center;
-}
 
-.ultimos-avistamientos li {
-    background-color: #e9ecef;
-    border: 1px solid #ccc;
-    margin: 5px 0;
-    padding: 10px;
-    border-radius: 6px;
-    width: 100%;
-}
 
 form input[type="text"],
 form input[type="password"],
@@ -124,4 +136,51 @@ form select {
     max-width: 500px;
     text-align: center;
     font-weight: 600;
+}
+
+.mensaje-error {
+    background-color: #f8d7da;
+    color: #c0392b;
+    border: 1px solid #f5c6cb;
+    padding: 15px;
+    margin: 20px auto;
+    border-radius: 6px;
+    max-width: 500px;
+    text-align: center;
+    font-weight: 600;
+}
+
+table {
+    width: 100%;
+    margin-top: 20px;
+    margin-bottom: 10px;
+    border-collapse: collapse;
+}
+
+table,
+th,
+td {
+    border: 1px solid #333;
+}
+
+th,
+td {
+    padding: 8px;
+    text-align: left;
+}
+
+th {
+    background-color: #ddd;
+}
+
+.error-msg {
+    color: #c0392b;
+    font-size: 0.85em;
+    display: none;
+    margin-top: 5px;
+    font-weight: bold;
+}
+
+.error-msg.visible {
+    display: block;
 }

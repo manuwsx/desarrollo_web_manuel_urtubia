@@ -5,7 +5,8 @@ from database import db
 #import hashlib
 #import filetype
 import os
-from database.db import get_avistamientos, get_comuna_id, register_voluntario, register_avistamiento, get_aves
+from database.db import get_avistamientos, get_comuna_id, register_voluntario, register_avistamiento, get_aves, get_avistamientos_filtrados, get_avistamiento_by_id
+import math
 
 UPLOAD_FOLDER = 'static/uploads'
 
@@ -34,7 +35,7 @@ def register():
             comuna_id = get_comuna_id(comuna)
             status, msg = register_voluntario(nombre_usuario, nombre_completo, email, telefono, password, comuna_id)
             if status:
-                return redirect(url_for('index', exito='voluntario'))
+                return render_template('register.html', exito=True, username=nombre_usuario)
             else:
                 return render_template('register.html', error=msg)
         else:
@@ -54,7 +55,8 @@ def inform():
         lugar = request.form.get("lugar")
         media = request.files.getlist("media")
         
-        if validar_registro_avistamiento(username, password, ave_id, tipo_ave, comuna, fecha_hora, lugar, media):
+        valido, msg_validacion = validar_registro_avistamiento(username, password, ave_id, tipo_ave, comuna, fecha_hora, lugar, media)
+        if valido:
             comuna_id = get_comuna_id(comuna)
             status, msg = register_avistamiento(username, password, ave_id, tipo_ave, comuna_id, fecha_hora, lugar, media)
             if status:
@@ -62,10 +64,42 @@ def inform():
             else:
                 return render_template('inform.html', error=msg, aves=aves)
         else:
-            return render_template('inform.html', error="Datos inválidos.", aves=aves)
+            return render_template('inform.html', error=msg_validacion, aves=aves)
     
     return render_template('inform.html', aves=aves)
 
+@app.route('/list')
+def list():
+    # para la url http://localhost:5000/list?page=____ checkeamos que es un numero.
+    # si se enviara un script malicioso en el argumento page, se manda a la pagina 1
+    page_str = request.args.get('page', '1')
+    if page_str.isdigit():
+        page = int(page_str)
+    else:
+        page = 1
+    tipo = request.args.get('tipo', 'todos')
+    orden = request.args.get('orden', 'fecha-desc')
+
+    avistamientos_pagina, total_items = get_avistamientos_filtrados(tipo, orden, page, page_size=5)
+    total_pages = math.ceil(total_items / 5) if total_items > 0 else 1
+
+    return render_template('list.html', 
+                           avistamientos=avistamientos_pagina, 
+                           page=page, 
+                           total_pages=total_pages,
+                           tipo_actual=tipo,
+                           orden_actual=orden)
+
+@app.route('/list/<int:id>')
+def detalle_avistamiento(id):
+    avistamiento = get_avistamiento_by_id(id)
+    if avistamiento is None:
+        return "Avistamiento no encontrado", 404
+    return render_template('detalle_avistamiento.html', avistamiento=avistamiento)
+
+@app.route('/stats')
+def stats():
+    return render_template('stats.html')
 
 if __name__ == '__main__':
     app.run(debug=True)

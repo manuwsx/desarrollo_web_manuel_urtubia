@@ -1,27 +1,28 @@
-from sqlalchemy import false
 import re
 from database.db import get_comuna_id
 from datetime import datetime, timedelta
 
-#mismas validaciones que en los javascript
+# Mismas validaciones que en los javascripts excepto que para inputs de texto hay limites de largo maximo (que coinciden con los de la db)
+# y que se pide que no se acepten los simbolos < y > usados para xss
+
 #validaciones voluntario
 def validar_email(email):
-    return email and re.match(r"^[^\s@]+@[^\s@]+\.[^\s@]+$", email)
+    return email and len(email) <= 80 and "<" not in email and ">" not in email and re.match(r"^[^\s@]+@[^\s@]+\.[^\s@]+$", email)
 
 def validar_username(username):
-    return username and len(username.strip()) > 3
+    return username and 3 < len(username.strip()) <= 255 and "<" not in username and ">" not in username
 
 def validar_nombre_completo(nombre_completo):
     regex_nombre = r"^[a-zA-ZáéíóúÁÉÍÓÚñÑ]+( [a-zA-ZáéíóúÁÉÍÓÚñÑ]+)+$"
-    return nombre_completo and len(nombre_completo) > 5 and re.match(regex_nombre, nombre_completo)
+    return nombre_completo and 5 < len(nombre_completo) <= 255 and "<" not in nombre_completo and ">" not in nombre_completo and re.match(regex_nombre, nombre_completo)
 
 def validar_telefono(telefono):
-    return telefono and re.match(r"^(\+?56)?9\d{8}$", telefono)
+    return telefono and len(telefono) <= 15 and "<" not in telefono and ">" not in telefono and re.match(r"^(\+?56)?9\d{8}$", telefono)
 
 def validar_password(password):
     # Al menos 8 caracteres, una mayúscula, una minúscula, un número y un símbolo especial
     regex_password = r"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$"
-    return password and re.match(regex_password, password)
+    return password and len(password) <= 255 and "<" not in password and ">" not in password and re.match(regex_password, password)
 
 def validar_comuna(comuna):
     if not comuna:
@@ -44,7 +45,7 @@ def validar_ave_id(ave_id):
     return ave_id is not None and str(ave_id).isdigit()
 
 def validar_lugar(lugar):
-    return lugar and len(lugar.strip()) > 2
+    return lugar and 2 < len(lugar.strip()) <= 200 and "<" not in lugar and ">" not in lugar
 
 def validar_fecha(fecha):
     if not fecha:
@@ -65,12 +66,17 @@ def validar_fecha(fecha):
     except ValueError:
         return False
 
-def validar_media(media):
-    if not media:
+def validar_media(archivos):
+    if not archivos:
         return False
-    extensiones_validas = ['png', 'jpg', 'jpeg', 'mp4', 'avi', 'mkv']
-    extension_media = media.filename.split('.')[-1].lower()
-    return extension_media in extensiones_validas
+    extensiones_validas = ['png', 'jpg', 'jpeg', 'mp4', 'webm']
+    for media in archivos:
+        if not media or not media.filename:
+            return False
+        extension_media = media.filename.split('.')[-1].lower()
+        if extension_media not in extensiones_validas:
+            return False
+    return True
 
 
 def validar_registro_avistamiento(username, password, ave_id, tipo_ave, comuna_nombre, fecha_hora, lugar, media):
@@ -81,7 +87,7 @@ def validar_registro_avistamiento(username, password, ave_id, tipo_ave, comuna_n
             validar_comuna(comuna_nombre) and
             validar_lugar(lugar) and
             validar_fecha(fecha_hora) and
-            validar_media(media[0] if media else None)):
+            validar_media(media)):
         return False, "Datos inválidos en el formulario."
     
     return True, None

@@ -1,5 +1,6 @@
 const grafico_aves_torta = document.getElementById('graficoTortaAves').getContext('2d');
 const grafico_barras_region = document.getElementById('graficoAvistamientoRegion').getContext('2d');
+const grafico_barras_usuarios = document.getElementById('graficoBarrasUsuarios').getContext('2d');
 
 const grafico1 = new Chart(grafico_aves_torta, {
     type: 'pie',
@@ -60,6 +61,41 @@ const grafico2 = new Chart(grafico_barras_region, {
             title: {
                 display: true,
                 text: 'Avistamientos por Región',
+                font: {
+                    size: 16
+                }
+            }
+        }
+    }
+});
+
+const grafico3 = new Chart(grafico_barras_usuarios, {
+    type: 'bar',
+    data: {
+        labels: [
+            'Región Metropolitana de Santiago',
+            'Región de Valparaíso',
+            'Región del Biobío',
+            'Región de La Araucanía',
+            'Región de Coquimbo',
+            'Región de Los Lagos',
+            'Región de Antofagasta',
+            'Región de Tarapacá'
+        ],
+        datasets: [{
+            label: 'Cantidad de usuarios',
+            data: [74, 15, 10, 8, 7, 5, 3, 2],
+            backgroundColor: [
+                '#ed7d31'
+            ],
+            borderWidth: 1,
+        }]
+    },
+    options: {
+        plugins: {
+            title: {
+                display: true,
+                text: 'Usuarios por Región',
                 font: {
                     size: 16
                 }

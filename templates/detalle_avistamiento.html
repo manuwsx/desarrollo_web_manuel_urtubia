@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Detalle Avistamiento - Aves-tamientos</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+    <a href="/list">← Volver al listado</a>
+    <h1>Detalle del Avistamiento</h1>
+    <table>
+        <tr>
+            <th>Ave</th>
+            <td>{{ avistamiento.ave.nombre }}</td>
+        </tr>
+        <tr>
+            <th>Tipo</th>
+            <td>{{ avistamiento.tipo_ave }}</td>
+        </tr>
+        <tr>
+            <th>Fecha y Hora</th>
+            <td>{{ avistamiento.fecha_hora.strftime('%d-%m-%Y %H:%M') }}</td>
+        </tr>
+        <tr>
+            <th>Lugar</th>
+            <td>{{ avistamiento.lugar }}</td>
+        </tr>
+        <tr>
+            <th>Comuna</th>
+            <td>{{ avistamiento.comuna.nombre }}</td>
+        </tr>
+        <tr>
+            <th>Región</th>
+            <td>{{ avistamiento.comuna.region.nombre }}</td>
+        </tr>
+        <tr>
+            <th>Nombre autor</th>
+            <td>{{ avistamiento.voluntario.nombre_completo }}</td>
+        </tr>
+        <tr>
+            <th>Nombre de usuario del autor</th>
+            <td>{{ avistamiento.voluntario.nombre_usuario }}</td>
+        </tr>
+    </table>
+    <h2>Fotos y Videos</h2>
+    {% if avistamiento.registros %}
+    {% for reg in avistamiento.registros %}
+    {% if reg.nombre_archivo.endswith('.mp4') or reg.nombre_archivo.endswith('.webm') %}
+    <video controls width="400">
+        <source src="{{ url_for('static', filename='uploads/' + reg.nombre_archivo) }}">
+    </video>
+    {% else %}
+    <img src="{{ url_for('static', filename='uploads/' + reg.nombre_archivo) }}" alt="{{ reg.nombre_archivo }}"
+        width="400">
+    {% endif %}
+    {% endfor %}
+    {% else %}
+    <p>No hay fotos ni videos para este avistamiento.</p>
+    {% endif %}
+</body>
+
+</html>

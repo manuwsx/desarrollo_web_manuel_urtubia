@@ -16,8 +16,8 @@
         <ul>
             <li><a href="/register">Registrarse</a></li>
             <li><a href="/inform">Formulario de Avistamiento</a></li>
-            <li><a href="list/list.html">Lista de Avistamientos</a></li>
-            <li><a href="stats/stats.html">Página de Estadísticas</a></li>
+            <li><a href="/list">Lista de Avistamientos</a></li>
+            <li><a href="/stats">Página de Estadísticas</a></li>
         </ul>
     </nav>
 
@@ -34,14 +34,24 @@
     <div class="ultimos-avistamientos">
         <h2>Últimos Avistamientos</h2>
         {% if avistamientos %}
-        <ul>
-            {% for avistamiento in avistamientos %}
-            <li>
-                <strong>{{ avistamiento.ave.nombre }}</strong> visto en {{ avistamiento.lugar }}<br>
-                <small>Fecha: {{ avistamiento.fecha_hora.strftime('%d-%m-%Y %H:%M') }}</small>
-            </li>
-            {% endfor %}
-        </ul>
+        <table style="margin: 0 auto;">
+            <thead>
+                <tr>
+                    <th>Ave</th>
+                    <th>Lugar</th>
+                    <th>Fecha</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for avistamiento in avistamientos %}
+                <tr>
+                    <td><strong>{{ avistamiento.ave.nombre }}</strong></td>
+                    <td>{{ avistamiento.lugar }}</td>
+                    <td>{{ avistamiento.fecha_hora.strftime('%d-%m-%Y %H:%M') }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
         {% else %}
         <p>Aún no hay avistamientos registrados en la base de datos.</p>
         {% endif %}

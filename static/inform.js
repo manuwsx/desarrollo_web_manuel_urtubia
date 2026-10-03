@@ -33,7 +33,7 @@ const validarForm = (e) => {
     const validadorMedia = (media) => {
         if (!media) return false;
         const extension = media.split('.').pop().toLowerCase();
-        const extensionesValidas = ['png', 'jpg', 'jpeg', 'mp4', 'avi', 'mkv'];
+        const extensionesValidas = ['png', 'jpg', 'jpeg', 'mp4', 'webm'];
         return extensionesValidas.includes(extension);
     };
 

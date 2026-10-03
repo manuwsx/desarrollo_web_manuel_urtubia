@@ -6,55 +6,50 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Registro - Aves-tamientos</title>
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
-    <style>
-        .error-msg {
-            color: #c0392b;
-            font-size: 0.85em;
-            display: none;
-            margin-top: 5px;
-            font-weight: bold;
-        }
-
-        .error-msg.visible {
-            display: block;
-        }
-    </style>
 </head>
 
 <body>
     <a href="/">Volver al inicio</a>
     <h1>Regístrate en Ave-stamientos</h1>
 
+    {% if exito %}
+    <div class="mensaje-exito">
+        <p>¡Cuenta de voluntario <strong>{{ username }}</strong> creada exitosamente!</p>
+        <a href="/inform?username={{ username }}">Registrar un avistamiento</a>
+        <a href="/">Ir al inicio</a>
+    </div>
+    {% else %}
+
     {% if error %}
-    <p
-        style="color: #c0392b; font-weight: bold; background-color: #f8d7da; padding: 10px; border-radius: 5px; border: 1px solid #f5c6cb;">
-        {{ error }}</p>
+    <div class="mensaje-error">
+        {{ error }}
+    </div>
     {% endif %}
 
     <form action="/register" method="post" id="registro-form" novalidate>
         <p>
-            <label for="email">Correo electrónico:</label><br>
+            <label for="email">Correo electrónico: *</label><br>
             <input id="email" name="email" type="email" placeholder="Email" required>
             <span class="error-msg" id="error-email">Ingrese un correo electrónico válido.</span>
         </p>
         <p>
-            <label for="nombre">Nombre de usuario:</label><br>
+            <label for="nombre">Nombre de usuario: *</label><br>
             <input id="nombre" name="nombre_usuario" type="text" placeholder="Nombre de usuario" required>
             <span class="error-msg" id="error-nombre">El nombre de usuario debe tener más de 3 caracteres.</span>
         </p>
         <p>
-            <label for="nombre_completo">Nombre Completo:</label><br>
+            <label for="nombre_completo">Nombre Completo: *</label><br>
             <input id="nombre_completo" name="nombre_completo" type="text" placeholder="Nombre Completo" required>
             <span class="error-msg" id="error-nombre_completo">El nombre debe incluir apellido y tener más de 5
                 caracteres.</span>
         </p>
         <p>
-            <label for="telefono">Teléfono:</label><br>
+            <label for="telefono">Teléfono: *</label><br>
             <input id="telefono" name="telefono" type="tel" placeholder="Teléfono" required>
             <span class="error-msg" id="error-telefono">El teléfono debe tener formato chileno.</span>
         </p>
         <p>
-            <label for="region">Región:</label><br>
+            <label for="region">Región: *</label><br>
             <select id="region" name="region" required>
                 <option value="">Seleccione una región</option>
             </select>
@@ -62,7 +57,7 @@
         </p>
 
         <p>
-            <label for="comuna">Comuna:</label><br>
+            <label for="comuna">Comuna: *</label><br>
             <select id="comuna" name="comuna" disabled required>
                 <option value="">Seleccione una comuna</option>
             </select>
@@ -70,7 +65,7 @@
         </p>
 
         <p>
-            <label for="contrasena">Contraseña:</label><br>
+            <label for="contrasena">Contraseña: *</label><br>
             <input id="contrasena" name="password" type="password" placeholder="Contraseña" required>
             <span class="error-msg" id="error-contrasena">La contraseña debe tener mín. 8 caracteres, mayúscula,
                 minúscula, número y símbolo.</span>
@@ -80,6 +75,7 @@
     <script src="{{ url_for('static', filename='geo_data.js') }}"></script>
     <script src="{{ url_for('static', filename='register.js') }}"></script>
     <script> geo_dropdowns('region', 'comuna'); </script>
+    {% endif %}
 </body>
 
 </html>

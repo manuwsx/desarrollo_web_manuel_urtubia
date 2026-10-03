@@ -5,18 +5,24 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Estadísticas y Métricas</title>
-    <link rel="stylesheet" type="text/css" href="../style.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 
 <body>
-    <a href="../index.html">Volver al inicio</a>
+    <a href="/">Volver al inicio</a>
     <h1>Panel de Estadísticas</h1>
     <h2>Resumen General</h2>
     <ul>
         <li><strong>Usuarios Registrados:</strong> 124</li>
         <li><strong>Avistamientos Registrados:</strong> 12</li>
     </ul>
+
+    <h2>Usuarios por Región</h2>
+    <p>Distribución de los usuarios por cada región del país.</p>
+    <div style="width: 500px; max-width: 100%;">
+        <canvas id="graficoBarrasUsuarios"></canvas>
+    </div>
 
     <h2>Tipos de Aves Registrados</h2>
     <p>Distribución de los tipos de aves que han sido avistados hasta la fecha.</p>
@@ -32,7 +38,7 @@
         <canvas id="graficoAvistamientoRegion"></canvas>
     </div>
 
-    <script src="stats.js"></script>
+    <script src="{{ url_for('static', filename='stats.js') }}"></script>
 </body>
 
 </html>

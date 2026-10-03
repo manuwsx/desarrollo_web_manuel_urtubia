@@ -5,32 +5,84 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lista de Avistamientos - Aves-tamientos</title>
-    <link rel="stylesheet" type="text/css" href="../style.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 
 <body>
-    <a href="../index.html">Volver al inicio</a>
+    <a href="/">Volver al inicio</a>
     <h1>Avistamientos</h1>
-    <select id="filtroTipo">
-        <option value="todos">Tipo: Todos</option>
-        <option value="Rapaces">Rapaces</option>
-        <option value="Cantoras">Cantoras</option>
-        <option value="Acuáticas y Marinas">Acuáticas y Marinas</option>
-        <option value="Corredoras">Corredoras</option>
-        <option value="Trepadoras">Trepadoras</option>
-        <option value="Galliformes">Galliformes</option>
-    </select>
-    <select id="orden">
-        <option value="fecha-desc">Fecha (Nuevos primero)</option>
-        <option value="fecha-asc">Fecha (Antiguos primero)</option>
-        <option value="region-asc">Región (A-Z)</option>
-        <option value="region-desc">Región (Z-A)</option>
-    </select>
-    <div id="contenedor-avistamientos"></div>
-    <button id="anterior" disabled>Anterior</button>
-    <span id="pagina-actual">Página 1</span>
-    <button id="siguiente">Siguiente</button>
-    <script src="list.js"></script>
+    <form method="GET" action="/list" id="form-filtros">
+        <label for="filtro_tipo"> Filtrar por tipo:</label>
+        <select id="filtro_tipo" name="tipo" onchange="this.form.submit()">
+            <option value="todos" {% if tipo_actual=='todos' %}selected{% endif %}>Tipo: Todos</option>
+            <option value="Rapaces" {% if tipo_actual=='Rapaces' %}selected{% endif %}>Rapaces</option>
+            <option value="Cantoras" {% if tipo_actual=='Cantoras' %}selected{% endif %}>Cantoras</option>
+            <option value="Acuáticas y Marinas" {% if tipo_actual=='Acuáticas y Marinas' %}selected{% endif %}>Acuáticas
+                y Marinas</option>
+            <option value="Corredoras" {% if tipo_actual=='Corredoras' %}selected{% endif %}>Corredoras</option>
+            <option value="Trepadoras" {% if tipo_actual=='Trepadoras' %}selected{% endif %}>Trepadoras</option>
+            <option value="Galliformes" {% if tipo_actual=='Galliformes' %}selected{% endif %}>Galliformes</option>
+        </select>
+        <label for="filtro_orden"> Ordenar por:</label>
+        <select id="filtro_orden" name="orden" onchange="this.form.submit()">
+            <option value="fecha-desc" {% if orden_actual=='fecha-desc' %}selected{% endif %}>Fecha (Nuevos primero)
+            </option>
+            <option value="fecha-asc" {% if orden_actual=='fecha-asc' %}selected{% endif %}>Fecha (Antiguos primero)
+            </option>
+            <option value="region-asc" {% if orden_actual=='region-asc' %}selected{% endif %}>Región (A-Z)</option>
+            <option value="region-desc" {% if orden_actual=='region-desc' %}selected{% endif %}>Región (Z-A)</option>
+        </select>
+        <input type="hidden" name="page" value="1">
+    </form>
+    <table>
+        <thead>
+            <tr>
+                <th>Ave</th>
+                <th>Tipo</th>
+                <th>Fecha y Hora</th>
+                <th>Lugar</th>
+                <th>Región</th>
+                <th>Comuna</th>
+                <th>Subido por</th>
+                <th>Acción</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% if avistamientos %}
+            {% for av in avistamientos %}
+            <tr>
+                <td>{{ av.ave.nombre }}</td>
+                <td>{{ av.tipo_ave }}</td>
+                <td>{{ av.fecha_hora.strftime('%d-%m-%Y %H:%M') }}</td>
+                <td>{{ av.lugar }}</td>
+                <td>{{ av.comuna.region.nombre }}</td>
+                <td>{{ av.comuna.nombre }}</td>
+                <td>{{ av.voluntario.nombre_usuario }}</td>
+                <td><a href="/list/{{ av.id }}" class="enlace-lista">Ver detalle</a></td>
+            </tr>
+            {% endfor %}
+            {% else %}
+            <tr>
+                <td colspan="8">No hay avistamientos para mostrar.</td>
+            </tr>
+            {% endif %}
+        </tbody>
+    </table>
+    <div id="paginacion" style="text-align: center; margin: 20px 0;">
+        {% if page > 1 %}
+        <a href="/list?page={{ page - 1 }}&tipo={{ tipo_actual }}&orden={{ orden_actual }}" class="btn">Anterior</a>
+        {% else %}
+        <button disabled>Anterior</button>
+        {% endif %}
+
+        <span style="margin: 0 15px; font-weight: bold;">Página {{ page }} de {{ total_pages }}</span>
+
+        {% if page < total_pages %} <a href="/list?page={{ page + 1 }}&tipo={{ tipo_actual }}&orden={{ orden_actual }}"
+            class="btn">Siguiente</a>
+            {% else %}
+            <button disabled>Siguiente</button>
+            {% endif %}
+    </div>
 </body>
 
 </html>
