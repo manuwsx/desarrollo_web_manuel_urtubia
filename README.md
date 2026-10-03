@@ -25,6 +25,8 @@ Se expandió la hoja de estilos CSS para que la página se viera estéticamente 
 
 - **Seguridad ante ataques**: Se reforzaron las validaciones del backend para los inputs de texto: ahora tienen límites de largo máximo (coincidentes con la base de datos) y rechazan los símbolos < y > para prevenir ataques XSS.
 
+- **Uso de librería**: Se usó la librería Chart.js para hacer los gráficos de la vista de estadísticas y se usó la librería Select2 para hacer un select en el que se pudiera buscar el nombre de la ave en el form para los avistamientos.
+
 ## Sobre uso de imagen
 
 La imagen del búho fue obtenida de Library of Congress (https://www.loc.gov/) y es de uso libre.
