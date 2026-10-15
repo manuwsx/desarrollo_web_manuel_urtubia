@@ -71,6 +71,14 @@ class Registro(Base):
     nombre_archivo = Column(String(300), nullable=False)
     avistamiento_id = Column(Integer, ForeignKey('avistamiento.id'), nullable=False)
 
+class Comentario(Base):
+    __tablename__ = 'comentario'
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    nombre =  Column(String(80), nullable=False)
+    texto = Column(String(300), nullable=False)
+    fecha = Column(DateTime, default=datetime.now, nullable=False)
+    avistamiento_id = Column(Integer, ForeignKey('avistamiento.id'), nullable=False)
+
     # --- Database Functions ---
 
 def get_voluntario_by_id(id):
