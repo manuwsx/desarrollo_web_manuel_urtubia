@@ -1,4 +1,4 @@
-from sqlalchemy import create_engine, Column, Integer, String, ForeignKey, DateTime
+from sqlalchemy import create_engine, Column, Integer, String, ForeignKey, DateTime, func
 from sqlalchemy.orm import sessionmaker, declarative_base, relationship
 from datetime import datetime
 import os
@@ -228,3 +228,21 @@ def get_avistamiento_by_id(avistamiento_id):
     session.close()
     return avistamiento
 
+# Obtencion de datos para estadisticas
+def get_avistamientos_por_dias():
+    session = SessionLocal()
+    datos = session.query(func.date(Avistamiento.fecha_hora), func.count(Avistamiento.id)).group_by(func.date(Avistamiento.fecha_hora)).order_by(func.date(Avistamiento.fecha_hora).asc()).all()
+    session.close()
+    return datos
+
+def get_avistamientos_por_tipo_ave():
+    session = SessionLocal()
+    datos = session.query(Avistamiento.tipo_ave,func.count(Avistamiento.id)).group_by(Avistamiento.tipo_ave).all()
+    session.close()
+    return datos
+
+def get_voluntario_por_comuna():
+    session = SessionLocal()
+    datos = session.query(Comuna.nombre, func.count(Voluntario.id)).join(Voluntario).group_by(Comuna.nombre).all() 
+    session.close()
+    return datos
