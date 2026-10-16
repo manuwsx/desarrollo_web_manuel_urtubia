@@ -1,11 +1,11 @@
-from flask import Flask, request, render_template, redirect, url_for, session
+from flask import Flask, request, render_template, redirect, url_for, session, jsonify
 from utils.validations import *
 from database import db
 #from werkzeug.utils import secure_filename
 #import hashlib
 #import filetype
 import os
-from database.db import get_avistamientos, get_comuna_id, register_voluntario, register_avistamiento, get_aves, get_avistamientos_filtrados, get_avistamiento_by_id
+from database.db import *
 import math
 
 UPLOAD_FOLDER = 'static/uploads'
@@ -100,6 +100,29 @@ def detalle_avistamiento(id):
 @app.route('/stats')
 def stats():
     return render_template('stats.html')
+
+@app.route('/get-stats')
+def get_stats():
+    datos1 = get_avistamientos_por_dias()
+    datos2 = get_avistamientos_por_tipo_ave()
+    datos3 = get_voluntario_por_comuna()
+
+    datos_graficos = { # en el formato que pide chart.js
+        "avistamientos_por_dia": {
+            "labels": [str(fila[0]) for fila in datos1],
+            "data": [fila[1] for fila in datos1]
+        },
+        "avistamientos_por_tipo_ave": {
+            "labels": [fila[0] for fila in datos2],
+            "data": [fila[1] for fila in datos2]
+        },
+        "voluntarios_por_comuna": {
+            "labels": [fila[0] for fila in datos3],
+            "data": [fila[1] for fila in datos3]
+        }
+    }
+
+    return jsonify(datos_graficos)
 
 if __name__ == '__main__':
     app.run(debug=True)
