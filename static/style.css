@@ -148,6 +148,7 @@ form select {
     max-width: 500px;
     text-align: center;
     font-weight: 600;
+    white-space: pre-line;
 }
 
 table {

@@ -121,12 +121,16 @@ def create_voluntario(username, nombre_completo, email, telefono, password, comu
     session.close()
 
 def register_voluntario(username, nombre_completo, email, telefono, password, comuna_id):
+    errores = []
     if get_voluntario_by_email(email) is not None:
-        return False, "El correo ya está en uso."
+        errores.append("El correo ya está en uso.\n")
     if get_voluntario_by_username(username) is not None:
-        return False, "El nombre de usuario ya está en uso."
+        errores.append("El nombre de usuario ya está en uso.\n")
     if get_voluntario_by_telefono(telefono) is not None:
-        return False, "El número de teléfono ya está registrado."
+        errores.append("El número de teléfono ya está registrado.\n")
+    
+    if errores:
+        return False, " ".join(errores)
     
     create_voluntario(username, nombre_completo, email, telefono, password, comuna_id)
     return True, None
