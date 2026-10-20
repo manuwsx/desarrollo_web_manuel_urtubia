@@ -251,7 +251,7 @@ def get_voluntario_por_comuna():
     session.close()
     return datos
 
-# Obtencion de comentarios
+# Obtencion y creacion de comentarios
 def get_comentarios_by_avistamiento_id(avistamiento_id):
     session = SessionLocal()
     comentarios = session.query(Comentario).filter(Comentario.avistamiento_id == avistamiento_id).order_by(Comentario.fecha.desc()).all()
