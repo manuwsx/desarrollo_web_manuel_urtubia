@@ -171,12 +171,12 @@ def get_avistamientos_filtrados(tipo="todos", orden="fecha-desc", page=1, page_s
 def create_avistamiento(voluntario_id, ave_id, tipo_ave, comuna_id, fecha_hora, lugar, archivos):
     session = SessionLocal()
     nuevo_avistamiento = Avistamiento(
-        voluntario_id=voluntario_id,
-        ave_id=ave_id,
-        tipo_ave=tipo_ave,
-        comuna_id=comuna_id,
-        fecha_hora=fecha_hora,
-        lugar=lugar
+        voluntario_id = voluntario_id,
+        ave_id = ave_id,
+        tipo_ave = tipo_ave,
+        comuna_id = comuna_id,
+        fecha_hora = fecha_hora,
+        lugar = lugar
     )
     session.add(nuevo_avistamiento)
     session.commit()
@@ -250,3 +250,22 @@ def get_voluntario_por_comuna():
     datos = session.query(Comuna.nombre, func.count(Voluntario.id)).join(Voluntario).group_by(Comuna.nombre).all() 
     session.close()
     return datos
+
+# Obtencion de comentarios
+def get_comentarios_by_avistamiento_id(avistamiento_id):
+    session = SessionLocal()
+    comentarios = session.query(Comentario).filter(Comentario.avistamiento_id == avistamiento_id).order_by(Comentario.fecha.desc()).all()
+    session.close()
+    return comentarios
+
+def create_comentario(avistamiento_id, nombre, texto):
+    session = SessionLocal()
+    comentario_nuevo = Comentario(
+        avistamiento_id = avistamiento_id,
+        nombre = nombre,
+        texto = texto
+    )
+    session.add(comentario_nuevo)
+    session.commit()
+    session.close()
+    return True
