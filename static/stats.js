@@ -66,7 +66,7 @@ const renderGraficos = (datos) => {
     });
 };
 
-let fetchStats = (url) => {
+const fetchStats = (url) => {
     fetch(url)
         .then((response) => {
             if (!response.ok) {

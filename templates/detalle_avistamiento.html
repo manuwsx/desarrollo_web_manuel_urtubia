@@ -59,6 +59,34 @@
     {% else %}
     <p>No hay fotos ni videos para este avistamiento.</p>
     {% endif %}
+
+    <h2>Agregar un Comentario</h2>
+
+    <form id="form-comentario" novalidate>
+        <input type="hidden" id="avistamiento_id" value="{{ avistamiento.id }}">
+        <p>
+            <label for="nombre">Nombre de comentarista: *</label><br>
+            <input type="text" id="nombre" name="nombre" minlength="3" maxlength="50" required>
+            <span class="error-msg" id="error-nombre">El nombre debe tener entre 3 y 50 caracteres.</span>
+        </p>
+        <p>
+            <label for="texto">Comentario: *</label><br>
+            <textarea id="texto" name="texto" rows="3" cols="40" minlength="5" maxlength="300" required></textarea>
+            <span class="error-msg" id="error-texto">El comentario debe tener entre 5 y 300 caracteres.</span>
+        </p>
+
+        <div id="mensaje-comentario" class="mensaje-error" style="display: none;"></div>
+
+        <button type="submit" id="btn-comentar">Agregar comentario</button>
+    </form>
+
+    <h2>Comentarios</h2>
+    <div id="lista-comentarios">
+        <p>Cargando comentarios...</p>
+    </div>
+
+    <script src="{{ url_for('static', filename='comentarios.js') }}"></script>
+
 </body>
 
 </html>

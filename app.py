@@ -1,9 +1,6 @@
 from flask import Flask, request, render_template, redirect, url_for, session, jsonify
 from utils.validations import *
 from database import db
-#from werkzeug.utils import secure_filename
-#import hashlib
-#import filetype
 import os
 from database.db import *
 import math
@@ -123,6 +120,39 @@ def get_stats():
     }
 
     return jsonify(datos_graficos)
+
+@app.route('/get-comentarios/<int:id>')
+def get_comentarios(id):
+    comentarios = get_comentarios_by_avistamiento_id(id)
+    lista_comentarios = [] # lista de diccionarios donde cada uno es un comentario
+
+    for c in comentarios:
+        lista_comentarios.append({
+            "id": c.id,
+            "nombre": c.nombre,
+            "texto": c.texto,
+            "fecha": c.fecha.strftime("%d-%m-%Y %H:%M")
+        })
+
+    return jsonify(lista_comentarios)
+
+@app.route('/add-comentario/<int:id>', methods=['POST'])
+def add_comentario(id):
+    # verificar que el avistamiento existe 
+    if not get_avistamiento_by_id(id):
+        return jsonify({"success": False, "error": "Avistamiento no encontrado."}), 404
+
+    data = request.get_json() or {}
+    nombre = data.get('nombre')
+    texto = data.get('texto')
+
+    valido, error_msg = validar_comentario(nombre, texto)
+    
+    if not valido:
+        return jsonify({"success": False, "error": error_msg}), 400
+
+    create_comentario(id, nombre, texto)
+    return jsonify({"success": True}), 201
 
 if __name__ == '__main__':
     app.run(debug=True)
