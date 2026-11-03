@@ -3,7 +3,6 @@ from database.db import get_comuna_id
 from datetime import datetime, timedelta
 
 # Mismas validaciones que en los javascripts excepto que para inputs de texto hay limites de largo maximo (que coinciden con los de la db)
-# y que se pide que no se acepten los simbolos < y > usados para xss
 
 #validaciones voluntario
 def validar_email(email):
