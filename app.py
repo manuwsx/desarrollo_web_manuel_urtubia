@@ -13,6 +13,7 @@ app.config['MAX_CONTENT_LENGTH'] = 10 * 1024 * 1024 #tamaño maximo de archivos 
 
 app.secret_key = "s3cr3t_k3y"
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+os.makedirs(UPLOAD_FOLDER, exist_ok=True)   
 
 @app.route('/')
 def index():

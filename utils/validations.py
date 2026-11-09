@@ -75,20 +75,20 @@ def validar_fecha(fecha):
     if not fecha:
         return False
     try:
-        fecha_post = datetime.fromisoformat(fecha)
-        fecha_ahora = datetime.now()
-        limitePasado = fecha_ahora - timedelta(weeks=2)
-
-        if fecha_post > fecha_ahora:
-            return False
-        
-        if fecha_post < limitePasado:
-            return False
-
-        return True
-
+        fecha_post = datetime.strptime(fecha, "%Y-%m-%dT%H:%M")
     except ValueError:
         return False
+
+    fecha_ahora = datetime.now()
+    limitePasado = fecha_ahora - timedelta(weeks=2)
+
+    if fecha_post > fecha_ahora:
+        return False
+
+    if fecha_post < limitePasado:
+        return False
+
+    return True
 
 def validar_media(archivos):
     if not archivos:

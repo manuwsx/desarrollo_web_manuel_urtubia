@@ -168,6 +168,15 @@ def get_avistamientos_filtrados(tipo="todos", orden="fecha-desc", page=1, page_s
     session.close() 
     return avistamientos_pagina, total_items
 
+def generar_nombre_archivo(avistamiento_id, indice, nombre_original):
+    nombre, extension = os.path.splitext(nombre_original)
+    nombre = secure_filename(nombre) or "archivo"
+    extension = extension.lower()
+
+    # para darle un nombre unico a cada foto usamos el id del avistamiento, el indice del archivo subido y el nombre original
+    nombre_final = f"{avistamiento_id}_{indice}_{nombre}{extension}"
+    return nombre_final
+
 def create_avistamiento(voluntario_id, ave_id, tipo_ave, comuna_id, fecha_hora, lugar, archivos):
     session = SessionLocal()
     nuevo_avistamiento = Avistamiento(
@@ -180,10 +189,10 @@ def create_avistamiento(voluntario_id, ave_id, tipo_ave, comuna_id, fecha_hora, 
     )
     session.add(nuevo_avistamiento)
     session.commit()
-    
-    for archivo in archivos:
+
+    for i, archivo in enumerate(archivos):
         if archivo and archivo.filename:
-            filename = secure_filename(archivo.filename)
+            filename = generar_nombre_archivo(nuevo_avistamiento.id, i, archivo.filename)
             ruta = f"static/uploads/{filename}"
             archivo.save(ruta)
 
