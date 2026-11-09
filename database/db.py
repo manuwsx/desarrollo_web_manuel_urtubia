@@ -137,7 +137,7 @@ def register_voluntario(username, nombre_completo, email, telefono, password, co
 
 def get_avistamientos(limit=None):
     session = SessionLocal()
-    query = session.query(Avistamiento).order_by(Avistamiento.fecha_hora.desc())
+    query = session.query(Avistamiento).order_by(Avistamiento.id.desc())
     if limit:
         query = query.limit(limit)
     avistamientos = query.all()
