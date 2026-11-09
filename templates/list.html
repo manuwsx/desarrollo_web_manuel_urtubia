@@ -50,7 +50,7 @@
         <tbody>
             {% if avistamientos %}
             {% for av in avistamientos %}
-            <tr>
+            <tr class="fila-avistamiento" data-href="/list/{{ av.id }}">
                 <td>{{ av.ave.nombre }}</td>
                 <td>{{ av.tipo_ave }}</td>
                 <td>{{ av.fecha_hora.strftime('%d-%m-%Y %H:%M') }}</td>
@@ -83,6 +83,7 @@
             <button disabled>Siguiente</button>
             {% endif %}
     </div>
+    <script src="{{ url_for('static', filename='list.js') }}"></script>
 </body>
 
 </html>

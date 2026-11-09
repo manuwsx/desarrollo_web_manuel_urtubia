@@ -192,3 +192,12 @@ th {
     margin: 0 auto 20px auto;
     font-size: 1.1em;
 }
+
+.fila-avistamiento {
+    cursor: pointer;
+}
+
+.fila-avistamiento:hover,
+.fila-avistamiento:focus {
+    background-color: #ece3c7;
+}
