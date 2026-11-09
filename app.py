@@ -1,3 +1,4 @@
+from utils.validations import regiones_ids
 from flask import Flask, request, render_template, redirect, url_for, session, jsonify
 from utils.validations import *
 from database import db
@@ -25,11 +26,12 @@ def register():
         nombre_usuario = request.form.get("nombre_usuario")
         nombre_completo = request.form.get("nombre_completo")
         telefono = request.form.get("telefono")
+        region = request.form.get("region")
         comuna = request.form.get("comuna")
         password = request.form.get("password")
 
-        if validar_registro_voluntario(nombre_usuario, nombre_completo, email, telefono, password, comuna):
-            comuna_id = get_comuna_id(comuna)
+        if validar_registro_voluntario(nombre_usuario, nombre_completo, email, telefono, password, region, comuna):
+            comuna_id = get_comuna_id(comuna, regiones_ids[region])
             status, msg = register_voluntario(nombre_usuario, nombre_completo, email, telefono, password, comuna_id)
             if status:
                 return render_template('register.html', exito=True, username=nombre_usuario)
@@ -37,7 +39,7 @@ def register():
                 return render_template('register.html', error=msg)
         else:
             return render_template('register.html', error="Datos inválidos.")
-    return render_template('register.html') 
+    return render_template('register.html')
 
 @app.route("/inform", methods=["GET", "POST"])
 def inform():
@@ -47,14 +49,15 @@ def inform():
         password = request.form.get("password")
         ave_id = request.form.get("ave_id")
         tipo_ave = request.form.get("tipo_ave")
+        region = request.form.get("region")
         comuna = request.form.get("comuna")
         fecha_hora = request.form.get("fecha")
         lugar = request.form.get("lugar")
         media = request.files.getlist("media")
         
-        valido, msg_validacion = validar_registro_avistamiento(username, password, ave_id, tipo_ave, comuna, fecha_hora, lugar, media)
+        valido, msg_validacion = validar_registro_avistamiento(username, password, ave_id, tipo_ave, region, comuna, fecha_hora, lugar, media)
         if valido:
-            comuna_id = get_comuna_id(comuna)
+            comuna_id = get_comuna_id(comuna, regiones_ids[region])
             status, msg = register_avistamiento(username, password, ave_id, tipo_ave, comuna_id, fecha_hora, lugar, media)
             if status:
                 return redirect(url_for('index', exito='avistamiento'))

@@ -2,6 +2,27 @@ import re
 from database.db import get_comuna_id
 from datetime import datetime, timedelta
 
+# Nombres de regiones en geo_data.js -> id de la region en la tabla 'region'
+# Se creó este diccionario ya que los nombres de regiones en la db y en el json de geo_form.js no coincidian
+regiones_ids = {
+    "Arica y Parinacota": 15,
+    "Tarapacá": 1,
+    "Antofagasta": 2,
+    "Atacama": 3,
+    "Coquimbo": 4,
+    "Valparaíso": 5,
+    "Región del Libertador Gral. Bernardo O’Higgins": 6,
+    "Región del Maule": 7,
+    "Región de Ñuble": 16,
+    "Región del Biobío": 8,
+    "Región de la Araucanía": 9,
+    "Región de Los Ríos": 14,
+    "Región de Los Lagos": 10,
+    "Región Aisén del Gral. Carlos Ibáñez del Campo": 11,
+    "Región de Magallanes y de la Antártica Chilena": 12,
+    "Región Metropolitana de Santiago": 13,
+}
+
 # Mismas validaciones que en los javascripts excepto que para inputs de texto hay limites de largo maximo (que coinciden con los de la db)
 
 #validaciones voluntario
@@ -23,17 +44,21 @@ def validar_password(password):
     regex_password = r"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$"
     return password and len(password) <= 255 and re.match(regex_password, password)
 
-def validar_comuna(comuna):
-    if not comuna:
+def validar_region(region):
+    return region and region in regiones_ids
+
+def validar_comuna(comuna, region):
+    # la comuna debe existir y pertenecer a la region seleccionada
+    if not comuna or not validar_region(region):
         return False
-    comuna_id = get_comuna_id(comuna)
+    comuna_id = get_comuna_id(comuna, regiones_ids[region])
 
     if not comuna_id:
         return False
     return True
 
-def validar_registro_voluntario(nombre_usuario, nombre_completo, email, telefono, password, comuna_nombre):
-    return validar_username(nombre_usuario) and validar_nombre_completo(nombre_completo) and validar_email(email) and validar_telefono(telefono) and validar_password(password) and validar_comuna(comuna_nombre)
+def validar_registro_voluntario(nombre_usuario, nombre_completo, email, telefono, password, region_nombre, comuna_nombre):
+    return validar_username(nombre_usuario) and validar_nombre_completo(nombre_completo) and validar_email(email) and validar_telefono(telefono) and validar_password(password) and validar_comuna(comuna_nombre, region_nombre)
 
 #validaciones avistamiento
 def validar_tipo(tipo):
@@ -78,12 +103,12 @@ def validar_media(archivos):
     return True
 
 
-def validar_registro_avistamiento(username, password, ave_id, tipo_ave, comuna_nombre, fecha_hora, lugar, media):
+def validar_registro_avistamiento(username, password, ave_id, tipo_ave, region_nombre, comuna_nombre, fecha_hora, lugar, media):
     if not (validar_username(username) and
             validar_password(password) and
             validar_ave_id(ave_id) and
             validar_tipo(tipo_ave) and
-            validar_comuna(comuna_nombre) and
+            validar_comuna(comuna_nombre, region_nombre) and
             validar_lugar(lugar) and
             validar_fecha(fecha_hora) and
             validar_media(media)):

@@ -197,9 +197,9 @@ def create_avistamiento(voluntario_id, ave_id, tipo_ave, comuna_id, fecha_hora, 
     session.commit()
     session.close()
 
-def get_comuna_id(nombre_comuna):
+def get_comuna_id(nombre_comuna, region_id):
     session = SessionLocal()
-    comuna = session.query(Comuna).filter(Comuna.nombre == nombre_comuna).first()
+    comuna = session.query(Comuna).filter(Comuna.nombre == nombre_comuna, Comuna.region_id == region_id).first()
     session.close()
     return comuna.id if comuna else None
 
