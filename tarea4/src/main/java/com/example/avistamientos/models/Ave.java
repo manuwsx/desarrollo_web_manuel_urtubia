@@ -1,4 +1,4 @@
-package com.example.avistamientos;
+package com.example.avistamientos.models;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -8,7 +8,7 @@ import jakarta.persistence.Id;
 // contiene solo lo necesario para el buscador
 
 @Entity
-public class Comuna {
+public class Ave {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;

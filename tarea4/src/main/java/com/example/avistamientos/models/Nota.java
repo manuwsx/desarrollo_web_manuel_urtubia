@@ -1,4 +1,4 @@
-package com.example.avistamientos;
+package com.example.avistamientos.models;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -21,5 +21,9 @@ public class Nota {
     public Nota(Integer avistamientoId, Integer nota) {
         this.avistamientoId = avistamientoId;
         this.nota = nota;
+    }
+
+    public Integer getNota() {
+        return nota;
     }
 }

@@ -1,4 +1,4 @@
-package com.example.avistamientos;
+package com.example.avistamientos.models;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
