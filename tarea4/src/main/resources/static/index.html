@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Buscador de Avistamientos - Aves-tamientos</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+<h1>Buscador de Avistamientos - Avestamientos</h1>
+<p class="bienvenida">
+    Escribe el nombre de un ave, de un voluntario (nombre completo/usuario) o de una comuna para ver los avistamientos asociados.
+</p>
+
+<form id="form-buscador">
+    <label for="texto-busqueda">Buscar:</label><br>
+    <input type="text" id="texto-busqueda" maxlength="100" autocomplete="off"
+           placeholder="Ej: Cóndor, Juan, Maipú...">
+</form>
+
+<div id="mensaje" class="mensaje-info" hidden></div>
+
+<div class="contenedor-tabla">
+    <table id="tabla-resultados" hidden>
+        <thead>
+        <tr>
+            <th>Voluntario</th>
+            <th>Día</th>
+            <th>Ave</th>
+            <th>Comuna</th>
+            <th>Nota</th>
+            <th>Acción</th>
+        </tr>
+        </thead>
+        <tbody id="cuerpo-resultados">
+        </tbody>
+    </table>
+</div>
+
+<script src="js/buscador.js"></script>
+</body>
+
+</html>
