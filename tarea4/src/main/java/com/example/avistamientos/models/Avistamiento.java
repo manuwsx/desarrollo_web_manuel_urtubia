@@ -27,10 +27,7 @@ public class Avistamiento {
     @JoinColumn(name = "comuna_id")
     private Comuna comuna;
 
-    // info para mostrar en resultados (tipo del ave, fecha y hora avistamiento, lugar del avistamiento)
-    private String tipoAve;
     private LocalDateTime fechaHora;
-    private String lugar;
 
     public Integer getId() {
         return id;
@@ -64,27 +61,11 @@ public class Avistamiento {
         this.comuna = comuna;
     }
 
-    public String getTipoAve() {
-        return tipoAve;
-    }
-
-    public void setTipoAve(String tipoAve) {
-        this.tipoAve = tipoAve;
-    }
-
     public LocalDateTime getFechaHora() {
         return fechaHora;
     }
 
     public void setFechaHora(LocalDateTime fechaHora) {
         this.fechaHora = fechaHora;
-    }
-
-    public String getLugar() {
-        return lugar;
-    }
-
-    public void setLugar(String lugar) {
-        this.lugar = lugar;
     }
 }
